@@ -1,30 +1,74 @@
-import { Barcode, CheckCircle } from 'lucide-react';
+import { Barcode } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { ModalComponent } from 'src/react-strap-modal';
 
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+import { ReleaseService } from '@/service/release-service';
+
+type Response = {
+  result_code: string;
+  result: {
+    goodsList: {
+      orderCount: number;
+    }[];
+  };
+};
 
 export const App = () => {
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [scannedValue, setScannedValue] = useState('');
+  const [invoiceNumber, setInvoiceNumber] = useState('');
+  const [response, setResponse] = useState<Response | null>(null);
 
-  const handleScan = () => {
-    if (value.trim()) {
-      setScannedValue(value);
-      setIsModalOpen(true);
-      setValue('');
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const onInvoiceNumberReset = () => {
+    setInvoiceNumber('');
+  };
+
+  const onSearchList = async (invoiceNumber: string) => {
+    if (invoiceNumber.trim() === '') {
+      toast.error('운송장 번호를 입력해주세요.');
+      return;
+    }
+
+    try {
+      const res = await ReleaseService.getInvoiceInfo(invoiceNumber);
+
+      if (res.result_code === '200') {
+        setResponse(res);
+        toggleModal();
+        return;
+      }
+
+      onInvoiceNumberReset();
+      setResponse(null);
+      toast.error('Event has not been created');
+      return;
+    } catch (error) {
+      toast.error('Failed to fetch invoice info');
+      onInvoiceNumberReset();
+      return;
     }
   };
 
+  const onConfirm = () => {
+    navigate('/release/check', {
+      state: {
+        invoiceNumber,
+      },
+    });
+  };
+
+  /**
+   * @fixme
+   * 해당 부분은 변경
+   */
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -36,14 +80,14 @@ export const App = () => {
           Barcode Scanner
         </h1>
         <div className="relative">
-          <Input
+          <input
             ref={inputRef}
-            className="pl-10 pr-4"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            className="w-full rounded-md border border-gray-300 py-2 pl-10 pr-2 placeholder:pl-10"
+            value={invoiceNumber}
+            onChange={(e) => setInvoiceNumber(e.target.value)}
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
-                handleScan();
+                onSearchList(invoiceNumber);
               }
             }}
             placeholder="Scan or enter barcode"
@@ -53,28 +97,22 @@ export const App = () => {
             size={20}
           />
         </div>
-        <Button className="mt-4 w-full" onClick={handleScan}>
+        <Button
+          className="mt-4 w-full"
+          onClick={() => onSearchList(invoiceNumber)}
+        >
           Submit
         </Button>
       </div>
 
       {isModalOpen && (
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Barcode Scanned Successfully</DialogTitle>
-            </DialogHeader>
-            <div className="flex flex-col items-center justify-center py-6">
-              <CheckCircle className="mb-4 text-green-500" size={48} />
-              <p className="text-center text-lg font-semibold text-gray-700">
-                Scanned Value: {scannedValue}
-              </p>
-            </div>
-            <DialogFooter>
-              <Button onClick={() => setIsModalOpen(false)}>Close</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <ModalComponent
+          isModalOpen={isModalOpen}
+          toggle={toggleModal}
+          onConfirm={onConfirm}
+          onReset={onInvoiceNumberReset}
+          totalCount={response?.result.goodsList[0].orderCount || 0}
+        />
       )}
     </div>
   );
