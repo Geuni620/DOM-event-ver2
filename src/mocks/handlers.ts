@@ -1,10 +1,48 @@
 import { http, HttpResponse } from 'msw';
 
+const mockMultiBoxListData = {
+  result_code: '200',
+  result: {
+    goodsList: [
+      {
+        orderCount: 5,
+      },
+      {
+        orderCount: 3,
+      },
+      {
+        orderCount: 2,
+      },
+    ],
+  },
+};
+
 export const handlers = [
-  http.get('/hello', () => {
-    console.log('msw:get :: /hello');
-    return HttpResponse.json({
-      data: 'Captured a "GET /hello" request',
-    });
+  http.get('/api/release/check', ({ request }) => {
+    const url = new URL(request.url);
+    const invoiceNumber = url.searchParams.get('invoiceNumber');
+
+    console.log('invoiceNumber', invoiceNumber);
+
+    if (!invoiceNumber) {
+      return new HttpResponse(null, { status: 400 });
+    }
+
+    return HttpResponse.json(mockMultiBoxListData);
+  }),
+
+  http.get('/api/release/check', ({ request }) => {
+    const url = new URL(request.url);
+    const invoiceNumber = url.searchParams.get('invoiceNumber');
+
+    if (!invoiceNumber) {
+      return new HttpResponse(null, { status: 400 });
+    }
+
+    if (invoiceNumber === '5120') {
+      return HttpResponse.json(mockMultiBoxListData);
+    }
+
+    return new HttpResponse(null, { status: 404 });
   }),
 ];
