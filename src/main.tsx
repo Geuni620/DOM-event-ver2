@@ -21,7 +21,7 @@ enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
       <QueryProvider>
-        <Toaster />
+        <Toaster richColors />
         <App />
       </QueryProvider>
     </React.StrictMode>,
