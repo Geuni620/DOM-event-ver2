@@ -22,19 +22,6 @@ export const handlers = [
     const url = new URL(request.url);
     const invoiceNumber = url.searchParams.get('invoiceNumber');
 
-    console.log('invoiceNumber', invoiceNumber);
-
-    if (!invoiceNumber) {
-      return new HttpResponse(null, { status: 400 });
-    }
-
-    return HttpResponse.json(mockMultiBoxListData);
-  }),
-
-  http.get('/api/release/check', ({ request }) => {
-    const url = new URL(request.url);
-    const invoiceNumber = url.searchParams.get('invoiceNumber');
-
     if (!invoiceNumber) {
       return new HttpResponse(null, { status: 400 });
     }
