@@ -1,5 +1,5 @@
 import { Barcode, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 export const App = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scannedValue, setScannedValue] = useState('');
@@ -24,6 +25,10 @@ export const App = () => {
     }
   };
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
@@ -32,6 +37,7 @@ export const App = () => {
         </h1>
         <div className="relative">
           <Input
+            ref={inputRef}
             className="pl-10 pr-4"
             value={value}
             onChange={(e) => setValue(e.target.value)}
