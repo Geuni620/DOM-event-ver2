@@ -3,9 +3,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { App } from 'src/App';
 import { QueryProvider } from 'src/components/common/QueryProvider';
+import { ReleaseCheck } from 'src/release-check';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+  },
+  {
+    path: '/release/check',
+    element: <ReleaseCheck />,
+  },
+]);
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
@@ -22,7 +35,7 @@ enableMocking().then(() => {
     <React.StrictMode>
       <QueryProvider>
         <Toaster richColors />
-        <App />
+        <RouterProvider router={router} />
       </QueryProvider>
     </React.StrictMode>,
   );
