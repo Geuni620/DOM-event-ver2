@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,11 +21,11 @@ export const ReleaseCheck: React.FC = () => {
 
   const handleInspectionComplete = (status: 'approved' | 'rejected') => {
     if (status === 'approved') {
-      alert('승인되었습니다.');
+      toast.success('승인되었습니다.');
       return;
     }
 
-    alert('거부되었습니다.');
+    toast.error('거부되었습니다.');
     return;
   };
 

@@ -9,6 +9,8 @@ import { App } from 'src/App';
 import { QueryProvider } from 'src/components/common/QueryProvider';
 import { ReleaseCheck } from 'src/release-check';
 
+import { MyForm } from './my-form';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -17,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/release/check',
     element: <ReleaseCheck />,
+  },
+  {
+    path: '/my-form',
+    element: <MyForm />,
   },
 ]);
 
@@ -34,7 +40,7 @@ enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
       <QueryProvider>
-        <Toaster richColors />
+        <Toaster position="top-center" richColors />
         <RouterProvider router={router} />
       </QueryProvider>
     </React.StrictMode>,
