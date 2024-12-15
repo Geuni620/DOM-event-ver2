@@ -30,6 +30,12 @@ export const App = () => {
     setInvoiceNumber('');
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    onSearchList(invoiceNumber);
+  };
+
   const onSearchList = async (invoiceNumber: string) => {
     if (invoiceNumber.trim() === '') {
       toast.error('운송장 번호를 입력해주세요.');
@@ -74,24 +80,19 @@ export const App = () => {
         <h1 className="mb-6 text-center text-2xl font-bold text-gray-800">
           Barcode Scanner
         </h1>
-        <div className="relative">
+        <form onSubmit={handleSubmit} className="relative">
           <input
             ref={inputRef}
             className="w-full rounded-md border border-gray-300 py-2 pl-10 pr-2 placeholder:pl-10"
             value={invoiceNumber}
             onChange={(e) => setInvoiceNumber(e.target.value)}
-            onKeyUp={(e) => {
-              if (e.key === 'Enter') {
-                onSearchList(invoiceNumber);
-              }
-            }}
             placeholder="Scan or enter barcode"
           />
           <Barcode
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             size={20}
           />
-        </div>
+        </form>
         <button
           className="mt-4 w-full"
           onClick={() => onSearchList(invoiceNumber)}

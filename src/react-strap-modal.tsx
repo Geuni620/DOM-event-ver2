@@ -29,7 +29,6 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    event.stopPropagation();
 
     if (isEnterCommand(scannedValue)) {
       onConfirm();
