@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { ModalComponent } from 'src/react-strap-modal';
 
-import { Button } from '@/components/ui/button';
 import { ReleaseService } from '@/service/release-service';
 
 type Response = {
@@ -65,13 +64,9 @@ export const App = () => {
     });
   };
 
-  /**
-   * @fixme
-   * 해당 부분은 변경
-   */
   useEffect(() => {
     inputRef.current?.focus();
-  }, []);
+  }, [isModalOpen]);
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -97,17 +92,16 @@ export const App = () => {
             size={20}
           />
         </div>
-        <Button
+        <button
           className="mt-4 w-full"
           onClick={() => onSearchList(invoiceNumber)}
         >
           Submit
-        </Button>
+        </button>
       </div>
 
       {isModalOpen && (
         <ModalComponent
-          isModalOpen={isModalOpen}
           toggle={toggleModal}
           onConfirm={onConfirm}
           onReset={onInvoiceNumberReset}
