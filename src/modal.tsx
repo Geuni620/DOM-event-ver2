@@ -1,5 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
@@ -9,7 +8,6 @@ const isEnterCommand = (value: string) => {
 };
 
 type ModalComponentProps = {
-  isOpen: boolean;
   toggle: () => void;
   onConfirm: () => void;
   onReset: () => void;
@@ -17,7 +15,6 @@ type ModalComponentProps = {
 };
 
 export const ModalComponent: React.FC<ModalComponentProps> = ({
-  isOpen,
   toggle,
   onConfirm,
   onReset,
@@ -46,39 +43,33 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
     onReset();
   };
 
-  /**
   useEffect(() => {
-    requestAnimationFrame(() => {
-      inputRef.current?.focus();
-    });
-  }, []);
-   */
-
-  useLayoutEffect(() => {
     inputRef.current?.focus();
   }, []);
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle}>
-      <form onSubmit={handleSubmit}>
-        <ModalBody>
-          <div>
-            <span>총 주문 수량: {totalCount}</span>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+      <div className="min-w-[300px] rounded-lg bg-white p-6">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <div>
+              <span>총 주문 수량: {totalCount}</span>
+            </div>
+            <input
+              ref={inputRef}
+              onChange={onScannedValueChange}
+              value={scannedValue}
+              className="mt-2 w-full rounded border border-gray-300 p-2"
+            />
           </div>
-          <input
-            ref={inputRef}
-            onChange={onScannedValueChange}
-            value={scannedValue}
-            className="mt-2 w-full rounded border border-gray-300 p-2"
-          />
-        </ModalBody>
-        <ModalFooter>
-          <Button type="submit">확인</Button>
-          <Button type="button" onClick={handleCancel}>
-            취소
-          </Button>
-        </ModalFooter>
-      </form>
-    </Modal>
+          <div className="flex justify-end gap-2">
+            <Button type="submit">확인</Button>
+            <Button type="button" onClick={handleCancel}>
+              취소
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };

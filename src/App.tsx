@@ -2,7 +2,8 @@ import { Barcode } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { ModalComponent } from 'src/react-strap-modal';
+// import { ModalComponent } from 'src/modal';
+import { ModalComponent as ReactStrapModal } from 'src/react-strap-modal';
 
 import { ReleaseService } from '@/service/release-service';
 
@@ -72,7 +73,7 @@ export const App = () => {
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, [isModalOpen]);
+  }, []);
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -96,13 +97,27 @@ export const App = () => {
         <button
           className="mt-4 w-full"
           onClick={() => onSearchList(invoiceNumber)}
+          type="button"
         >
           Submit
         </button>
       </div>
 
+      {/**
+       * 모달 컴포넌트
       {isModalOpen && (
         <ModalComponent
+          toggle={toggleModal}
+          onConfirm={onConfirm}
+          onReset={onInvoiceNumberReset}
+          totalCount={response?.result.goodsList[0].orderCount || 0}
+        />
+      )}
+      */}
+
+      {isModalOpen && (
+        <ReactStrapModal
+          isOpen={isModalOpen}
           toggle={toggleModal}
           onConfirm={onConfirm}
           onReset={onInvoiceNumberReset}
