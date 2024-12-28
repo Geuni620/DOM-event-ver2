@@ -28,7 +28,6 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
     "@tanstack/eslint-plugin-query": "^5.17.22",
     "@tanstack/react-query-devtools": "^5.17.21",
     "@testing-library/jest-dom": "^6.4.2",
