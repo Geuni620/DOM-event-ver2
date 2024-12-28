@@ -54,12 +54,20 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   }, []);
    */
 
+  /**
   useLayoutEffect(() => {
     inputRef.current?.focus();
   }, []);
+   */
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     inputRef.current?.focus();
+  //   }, 0);
+  // }, []);
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle}>
+    <Modal isOpen={isOpen} toggle={toggle} fade={false}>
       <form onSubmit={handleSubmit}>
         <ModalBody>
           <div>

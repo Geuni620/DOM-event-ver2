@@ -2,7 +2,7 @@ import { Barcode } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-// import { ModalComponent } from 'src/modal';
+import { ModalComponent } from 'src/modal';
 import { ModalComponent as ReactStrapModal } from 'src/react-strap-modal';
 
 import { ReleaseService } from '@/service/release-service';
@@ -113,7 +113,7 @@ export const App = () => {
           totalCount={response?.result.goodsList[0].orderCount || 0}
         />
       )}
-      */}
+        */}
 
       {isModalOpen && (
         <ReactStrapModal
