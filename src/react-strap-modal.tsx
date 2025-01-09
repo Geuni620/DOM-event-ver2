@@ -46,25 +46,36 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
     onReset();
   };
 
-  /**
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      inputRef.current?.focus();
-    });
-  }, []);
-   */
+  // #1 useEffect
+  // useEffect(() => {
+  //   inputRef.current?.focus();
+  // }, []);
 
-  /**
-  useLayoutEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-   */
-
+  // #2 useEffect + setTimeout
   // useEffect(() => {
   //   setTimeout(() => {
   //     inputRef.current?.focus();
   //   }, 0);
   // }, []);
+
+  // #3 useLayoutEffect
+  // useLayoutEffect(() => {
+  //   inputRef.current?.focus();
+  // }, []);
+
+  // #4 requestAnimationFrame
+  // useEffect(() => {
+  //   requestAnimationFrame(() => {
+  //     inputRef.current?.focus();
+  //   });
+  // }, []);
+
+  // #5 promise
+  useEffect(() => {
+    Promise.resolve().then(() => {
+      inputRef.current?.focus();
+    });
+  }, []);
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} fade={false}>
