@@ -47,9 +47,10 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   };
 
   // #1 useEffect → ❌
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  // useEffect(() => {
+  //   inputRef.current?.focus();
+  //   console.log('inputRef.current?.focus()', inputRef.current);
+  // }, []);
 
   // #2 useEffect + setTimeout → ✅
   // useEffect(() => {
@@ -81,6 +82,12 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
     <Modal
       // fade={false}
       // onOpened={() => {
+      //   inputRef.current?.focus();
+      // }}
+      // onEnter={() => {
+      //   inputRef.current?.focus();
+      // }}
+      // setFocus={() => {
       //   inputRef.current?.focus();
       // }}
       isOpen={isOpen}
