@@ -46,39 +46,47 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
     onReset();
   };
 
-  // #1 useEffect
-  // useEffect(() => {
-  //   inputRef.current?.focus();
-  // }, []);
+  // #1 useEffect → ❌
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
-  // #2 useEffect + setTimeout
+  // #2 useEffect + setTimeout → ✅
   // useEffect(() => {
   //   setTimeout(() => {
   //     inputRef.current?.focus();
   //   }, 0);
   // }, []);
 
-  // #3 useLayoutEffect
+  // #3 useLayoutEffect → ❌
   // useLayoutEffect(() => {
   //   inputRef.current?.focus();
   // }, []);
 
-  // #4 requestAnimationFrame
+  // #4 requestAnimationFrame → ✅
   // useEffect(() => {
   //   requestAnimationFrame(() => {
   //     inputRef.current?.focus();
   //   });
   // }, []);
 
-  // #5 promise
-  useEffect(() => {
-    Promise.resolve().then(() => {
-      inputRef.current?.focus();
-    });
-  }, []);
+  // #5 promise → ✅
+  // useEffect(() => {
+  //   Promise.resolve().then(() => {
+  //     inputRef.current?.focus();
+  //   });
+  // }, []);
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} fade={false}>
+    <Modal
+      // fade={false}
+      // onOpened={() => {
+      //   inputRef.current?.focus();
+      // }}
+      isOpen={isOpen}
+      toggle={toggle}
+      fade={false}
+    >
       <form onSubmit={handleSubmit}>
         <ModalBody>
           <div>
