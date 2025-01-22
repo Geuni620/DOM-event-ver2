@@ -50,7 +50,7 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   // useEffect(() => {
   //   inputRef.current?.focus();
   //   console.log('inputRef.current?.focus()', inputRef.current);
-  // }, []);
+  // }, [isOpen]);
 
   // #2 useEffect + setTimeout → ✅
   // useEffect(() => {
@@ -65,11 +65,11 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   // }, []);
 
   // #4 requestAnimationFrame → ✅
-  // useEffect(() => {
-  //   requestAnimationFrame(() => {
-  //     inputRef.current?.focus();
-  //   });
-  // }, []);
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
+  }, []);
 
   // #5 promise → ✅
   // useEffect(() => {
@@ -90,9 +90,15 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
       // setFocus={() => {
       //   inputRef.current?.focus();
       // }}
+      // trapFocus={false}
+
       isOpen={isOpen}
       toggle={toggle}
       fade={false}
+      trapFocus={false}
+      // onOpened={() => {
+      //   inputRef.current?.focus();
+      // }}
     >
       <form onSubmit={handleSubmit}>
         <ModalBody>
@@ -101,6 +107,7 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
           </div>
           <input
             ref={inputRef}
+            autoFocus
             onChange={onScannedValueChange}
             value={scannedValue}
             className="mt-2 w-full rounded border border-gray-300 p-2"
@@ -116,3 +123,7 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
     </Modal>
   );
 };
+
+/**
+ * useEffect로 실행했지만, Modal의 내부는 조건부로 렌더링 된다<div className="ref가 input에 무착돼 있지만 조건부에 의해 렌더링 되지 않을 것
+ */

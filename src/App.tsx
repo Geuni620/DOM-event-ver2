@@ -2,8 +2,10 @@ import { Barcode } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { CompareModalExample } from 'src/compare-modal';
 import { ModalComponent } from 'src/modal';
 import { PortalModal } from 'src/portal-modal';
+import { PortalModalDelay } from 'src/portal-modal-delay';
 import { ModalComponent as ReactStrapModal } from 'src/react-strap-modal';
 
 import { ReleaseService } from '@/service/release-service';
@@ -76,6 +78,8 @@ export const App = () => {
     inputRef.current?.focus();
   }, []);
 
+  console.log('시작');
+
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
@@ -104,17 +108,16 @@ export const App = () => {
         </button>
       </div>
 
-      {/**
-       * 모달 컴포넌트
-      {isModalOpen && (
+      {/* *
+       * 모달 컴포넌트 */}
+      {/* {isModalOpen && (
         <ModalComponent
           toggle={toggleModal}
           onConfirm={onConfirm}
           onReset={onInvoiceNumberReset}
           totalCount={response?.result.goodsList[0].orderCount || 0}
         />
-      )}
-        */}
+      )} */}
 
       {isModalOpen && (
         <ReactStrapModal
@@ -134,6 +137,18 @@ export const App = () => {
           totalCount={response?.result.goodsList[0].orderCount || 0}
         />
       )} */}
+
+      {/* {isModalOpen && (
+        <PortalModalDelay
+          isOpen={isModalOpen}
+          toggle={toggleModal}
+          onConfirm={onConfirm}
+          onReset={onInvoiceNumberReset}
+          totalCount={response?.result.goodsList[0].orderCount || 0}
+        />
+      )} */}
+
+      {/* <CompareModalExample /> */}
     </div>
   );
 };
