@@ -7,6 +7,8 @@ import { ModalComponent } from 'src/modal';
 import { PortalModal } from 'src/portal-modal';
 import { PortalModalDelay } from 'src/portal-modal-delay';
 import { ModalComponent as ReactStrapModal } from 'src/react-strap-modal';
+import { TransitionModalComponent } from 'src/transition-modal';
+import { PortalModal as TransitionPortalModal } from 'src/transition-portals-modal';
 
 import { ReleaseService } from '@/service/release-service';
 
@@ -119,6 +121,16 @@ export const App = () => {
         />
       )} */}
 
+      {/* {isModalOpen && (
+        <TransitionModalComponent
+          isOpen={isModalOpen}
+          toggle={toggleModal}
+          onConfirm={onConfirm}
+          onReset={onInvoiceNumberReset}
+          totalCount={response?.result.goodsList[0].orderCount || 0}
+        />
+      )} */}
+
       {isModalOpen && (
         <ReactStrapModal
           isOpen={isModalOpen}
@@ -131,6 +143,16 @@ export const App = () => {
 
       {/* {isModalOpen && (
         <PortalModal
+          toggle={toggleModal}
+          onConfirm={onConfirm}
+          onReset={onInvoiceNumberReset}
+          totalCount={response?.result.goodsList[0].orderCount || 0}
+        />
+      )} */}
+
+      {/* {isModalOpen && (
+        <TransitionPortalModal
+          isOpen={isModalOpen}
           toggle={toggleModal}
           onConfirm={onConfirm}
           onReset={onInvoiceNumberReset}

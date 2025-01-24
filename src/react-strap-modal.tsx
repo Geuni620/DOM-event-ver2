@@ -65,16 +65,51 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   // }, []);
 
   // #4 requestAnimationFrame → ✅
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      inputRef.current?.focus();
-    });
-  }, []);
+  // useEffect(() => {
+  //   requestAnimationFrame(() => {
+  //     inputRef.current?.focus();
+  //   });
+  //   console.log('requestAnimationFrame');
+  // }, []);
 
   // #5 promise → ✅
   // useEffect(() => {
   //   Promise.resolve().then(() => {
   //     inputRef.current?.focus();
+  //   });
+  // }, []);
+
+  // #6 MutationObserver → ✅
+  // useEffect(() => {
+  //   const observer = new MutationObserver(() => {
+  //     inputRef.current?.focus();
+  //     observer.disconnect();
+  //   });
+  //   observer.observe(document.body, { childList: true, subtree: true });
+  //   return () => observer.disconnect();
+  // }, []);
+
+  useEffect(() => {
+    console.log('Current isOpen:', isOpen);
+    console.log('inputRef.current:', inputRef.current);
+
+    inputRef.current?.focus();
+  }, [isOpen]);
+
+  useEffect(() => {
+    const timestamp = new Date().toISOString();
+    inputRef.current?.focus();
+    console.log(`[${timestamp}] Effect Trigger`, {
+      isOpen,
+      inputRefCurrent: inputRef.current,
+      inputElement: inputRef.current ? inputRef.current.outerHTML : null,
+    });
+  }, [isOpen]);
+
+  // useEffect(() => {
+  //   requestAnimationFrame(() => {
+  //     inputRef.current?.focus();
+  //     console.log('requestAnimationFrame', inputRef.current);
   //   });
   // }, []);
 
