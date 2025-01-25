@@ -7,6 +7,7 @@ import { ReleaseService } from '@/service/release-service';
 
 // import { ModalComponent as ModalDefault } from './modal';
 // import { ModalComponent } from './react-strap-modal';
+import { Portals } from './react-strap/portals';
 
 type Response = {
   result_code: string;
@@ -76,7 +77,7 @@ export const App = () => {
     inputRef.current?.focus();
   }, []);
 
-  console.log('시작');
+  console.log('isModalOpen', isModalOpen);
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -105,6 +106,24 @@ export const App = () => {
           Submit
         </button>
       </div>
+
+      {isModalOpen && (
+        <Portals>
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0,0,0,0.2)',
+              padding: 20,
+            }}
+          >
+            <p>이 부분은 body 바로 아래에서 렌더링됩니다.</p>
+          </div>
+        </Portals>
+      )}
 
       {/* *
        * 모달 컴포넌트 */}
