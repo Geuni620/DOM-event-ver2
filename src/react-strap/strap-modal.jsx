@@ -2,14 +2,13 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Fade from './Fade';
-import Portal from './strap-portal';
+import Fade from './strap-fade.jsx';
+import Portal from './strap-portal.js';
 import {
   conditionallyUpdateScrollbar,
   focusableElements,
   getOriginalBodyPadding,
   getTarget,
-  keyCodes,
   mapToCssModules,
   omit,
   setScrollbarWidth,
@@ -95,7 +94,7 @@ const defaultProps = {
   backdrop: true,
   keyboard: true,
   zIndex: 1050,
-  fade: true,
+  fade: false,
   onOpened: noop,
   onClosed: noop,
   modalTransition: {
@@ -118,12 +117,7 @@ class Modal extends React.Component {
     this._element = null;
     this._originalBodyPadding = null;
     this.getFocusableChildren = this.getFocusableChildren.bind(this);
-    this.handleBackdropClick = this.handleBackdropClick.bind(this);
-    this.handleBackdropMouseDown = this.handleBackdropMouseDown.bind(this);
-    this.handleEscape = this.handleEscape.bind(this);
-    this.handleStaticBackdropAnimation =
-      this.handleStaticBackdropAnimation.bind(this);
-    this.handleTab = this.handleTab.bind(this);
+
     this.onOpened = this.onOpened.bind(this);
     this.onClosed = this.onClosed.bind(this);
     this.manageFocusAfterClose = this.manageFocusAfterClose.bind(this);
@@ -194,25 +188,26 @@ class Modal extends React.Component {
     this._isMounted = false;
   }
 
-  // not mouseUp because scrollbar fires it, shouldn't close when user scrolls
-  handleBackdropClick(e) {}
-
-  handleTab(e) {}
-
-  handleBackdropMouseDown(e) {
-    this._mouseDownElement = e.target;
-  }
-
-  handleEscape(e) {}
-
-  handleStaticBackdropAnimation() {}
-
   onOpened(node, isAppearing) {
     this.props.onOpened();
     (this.props.modalTransition.onEntered || noop)(node, isAppearing);
   }
 
-  onClosed(node) {}
+  onClosed(node) {
+    const { unmountOnClose } = this.props;
+    // so all methods get called before it is unmounted
+    this.props.onClosed();
+    (this.props.modalTransition.onExited || noop)(node);
+
+    if (unmountOnClose) {
+      this.destroy();
+    }
+    this.close();
+
+    if (this._isMounted) {
+      this.setState({ isOpen: false });
+    }
+  }
 
   setFocus() {
     if (

@@ -91,7 +91,7 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, [isOpen]);
+  }, []);
 
   // useEffect(() => {
   //   requestAnimationFrame(() => {
@@ -116,37 +116,34 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
 
       isOpen={isOpen}
       toggle={toggle}
-      fade={false}
-      trapFocus={false}
+      // fade={false}
+      // trapFocus={false}
       /**
        * @description
        * react-strap 자체의 focus는 제거하고,
        * input auto focus를 넣으면 잘 됨.
        */
-      autoFocus={false}
+      // autoFocus={false}
       // onOpened={() => {
       //   inputRef.current?.focus();
       // }}
     >
       <form onSubmit={handleSubmit}>
-        <ModalBody>
-          <div>
-            <span>총 주문 수량: {totalCount}</span>
-          </div>
-          <input
-            // autoFocus
-            ref={inputRef}
-            onChange={onScannedValueChange}
-            value={scannedValue}
-            className="mt-2 w-full rounded border border-gray-300 p-2"
-          />
-        </ModalBody>
-        <ModalFooter>
-          <Button type="submit">확인</Button>
-          <Button type="button" onClick={handleCancel}>
-            취소
-          </Button>
-        </ModalFooter>
+        <div>
+          <span>총 주문 수량: {totalCount}</span>
+        </div>
+        <input
+          // autoFocus
+          ref={inputRef}
+          onChange={onScannedValueChange}
+          value={scannedValue}
+          className="mt-2 w-full rounded border border-gray-300 p-2"
+        />
+
+        <Button type="submit">확인</Button>
+        <Button type="button" onClick={handleCancel}>
+          취소
+        </Button>
       </form>
     </Modal>
   );

@@ -48,7 +48,7 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+    <div className="">
       <div className="min-w-[300px] rounded-lg bg-white p-6">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

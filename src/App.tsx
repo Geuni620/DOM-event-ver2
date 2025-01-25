@@ -6,8 +6,10 @@ import { toast } from 'sonner';
 import { ReleaseService } from '@/service/release-service';
 
 import { ModalComponent as ModalDefault } from './modal';
-import Fade from './react-strap/strap-fade';
-import Portals from './react-strap/strap-portal';
+import Fade from './react-strap/strap-fade.jsx';
+import Modal from './react-strap/strap-modal.jsx';
+import Portals from './react-strap/strap-portal.js';
+import { ModalComponent } from './react-strap-modal.tsx';
 
 type Response = {
   result_code: string;
@@ -110,12 +112,19 @@ export const App = () => {
       {isModalOpen && (
         <Portals>
           <Fade in={isModalOpen}>
-            <ModalDefault
+            <Modal
+              autoFocus={false}
+              trapFocus={false}
+              isOpen={isModalOpen}
               toggle={toggleModal}
-              onConfirm={onConfirm}
-              onReset={onInvoiceNumberReset}
-              totalCount={response?.result.goodsList[0].orderCount || 0}
-            />
+            >
+              <ModalDefault
+                toggle={toggleModal}
+                onConfirm={onConfirm}
+                onReset={onInvoiceNumberReset}
+                totalCount={response?.result.goodsList[0].orderCount || 0}
+              />
+            </Modal>
           </Fade>
         </Portals>
       )}
