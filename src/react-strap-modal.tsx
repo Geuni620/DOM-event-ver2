@@ -46,31 +46,21 @@ export const ReactStrapModal: React.FC<ModalComponentProps> = ({
     onReset();
   };
 
-  // useEffect(() => {
-  //   inputRef.current?.focus();
-  // }, [isOpen]);
+  useEffect(() => {
+    if (isOpen) {
+      console.time('useEffect');
+      inputRef.current?.focus();
+      console.timeEnd('useEffect');
+    }
+  }, [isOpen]);
 
   useEffect(() => {
-    console.log(
-      '🔴 ReactStrapModal (Not Focusing) - useEffect, isOpen:',
-      isOpen,
-    ); // 1. isOpen 값 확인
-
     if (isOpen) {
-      console.log(
-        '🔴 ReactStrapModal (Not Focusing) - inputRef.current:',
-        inputRef.current,
-      ); // 2. inputRef.current 존재 여부
-      console.log(
-        '🔴 ReactStrapModal (Not Focusing) - inputRef.current.focus:',
-        inputRef.current?.focus,
-      ); // 3. focus() 함수 존재 여부
-
-      inputRef.current?.focus();
-      console.log(
-        '🔴 ReactStrapModal (Not Focusing) - document.activeElement:',
-        document.activeElement,
-      ); // 4. focus() 호출 후, 현재 포커스된 요소
+      requestAnimationFrame(() => {
+        console.time('animationFrame');
+        inputRef.current?.focus();
+        console.timeEnd('animationFrame');
+      });
     }
   }, [isOpen]);
 
@@ -79,20 +69,9 @@ export const ReactStrapModal: React.FC<ModalComponentProps> = ({
       isOpen={isOpen}
       toggle={toggle}
       onOpened={() => {
-        console.log('🟢 ReactStrapModal (Focusing?) - onOpened');
-        console.log(
-          '🟢 ReactStrapModal (Focusing?) - inputRef.current:',
-          inputRef.current,
-        );
-        console.log(
-          '🟢 ReactStrapModal (Focusing?) - inputRef.current.focus:',
-          inputRef.current?.focus,
-        );
+        console.time('opened');
         inputRef.current?.focus();
-        console.log(
-          '🟢 ReactStrapModal (Focusing?) - document.activeElement:',
-          document.activeElement,
-        );
+        console.timeEnd('opened');
       }}
     >
       <div className="min-w-[300px] rounded-lg bg-white p-6">
@@ -102,7 +81,15 @@ export const ReactStrapModal: React.FC<ModalComponentProps> = ({
               <span>총 주문 수량: {totalCount}</span>
             </div>
             <input
-              ref={inputRef}
+              ref={(node) => {
+                if (node) {
+                  inputRef.current = node;
+
+                  console.time('callback-ref-focus');
+                  node.focus();
+                  console.timeEnd('callback-ref-focus');
+                }
+              }}
               onChange={onScannedValueChange}
               value={scannedValue}
               className="mt-2 w-full rounded border border-gray-300 p-2"

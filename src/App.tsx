@@ -104,9 +104,31 @@ export const App = () => {
     inputRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    propsInputRef.current?.focus();
-  }, [isModalOpen]);
+  // useEffect(() => {
+  //   console.time('app-focus'); // 타이머 시작 (focus 관련)
+
+  //   console.log(
+  //     '🔵 App - before focus - propsInputRef.current:',
+  //     propsInputRef.current,
+  //   );
+  //   console.log(
+  //     '🔵 App - before focus - document.activeElement:',
+  //     document.activeElement,
+  //   );
+
+  //   propsInputRef.current?.focus();
+
+  //   console.log(
+  //     '🔵 App - after focus - propsInputRef.current:',
+  //     propsInputRef.current,
+  //   );
+  //   console.log(
+  //     '🔵 App - after focus - document.activeElement:',
+  //     document.activeElement,
+  //   );
+
+  //   console.timeEnd('app-focus'); // 타이머 종료 (focus 관련)
+  // }, [isModalOpen]);
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -137,20 +159,75 @@ export const App = () => {
       </div>
 
       {/* ✅ */}
-      {isModalOpen && (
-        <Modal isOpen={isModalOpen} toggle={toggleModal}>
+      {/* {isModalOpen && (
+        <Modal
+          onOpened={() => {
+            console.time('modal-onOpened'); // onOpened 콜백 시간 측정 시작
+            console.log(
+              '🟢 ReactStrapModal - onOpened - inputRef.current:',
+              propsInputRef.current,
+            );
+            console.log(
+              '🟢 ReactStrapModal - onOpened - document.activeElement:',
+              document.activeElement,
+            );
+
+            propsInputRef.current?.focus();
+
+            console.log(
+              '🔵 ReactStrapModal - after focus - inputRef.current:',
+              propsInputRef.current,
+            );
+            console.log(
+              '🔵 ReactStrapModal - after focus - document.activeElement:',
+              document.activeElement,
+            );
+
+            console.timeEnd('modal-onOpened'); // onOpened 콜백 시간 측정 종료
+          }}
+          isOpen={isModalOpen}
+          toggle={toggleModal}
+        >
           <ModalDefault
+            ref={propsInputRef}
             toggle={toggleModal}
             onConfirm={onConfirm}
             onReset={onInvoiceNumberReset}
             totalCount={response?.result.goodsList[0].orderCount || 0}
           />
         </Modal>
-      )}
+      )} */}
 
       {/* ❌ */}
       {/* {isModalOpen && (
-        <Modal isOpen={isModalOpen} toggle={toggleModal}>
+        <Modal
+          isOpen={isModalOpen}
+          toggle={toggleModal}
+          onOpened={() => {
+            console.time('modal-onOpened'); // onOpened 콜백 시간 측정 시작
+            console.log(
+              '🟢 ReactStrapModal - onOpened - inputRef.current:',
+              propsInputRef.current,
+            );
+            console.log(
+              '🟢 ReactStrapModal - onOpened - document.activeElement:',
+              document.activeElement,
+            );
+
+            propsInputRef.current?.focus();
+
+            console.log(
+              '🔵 ReactStrapModal - after focus - inputRef.current:',
+              propsInputRef.current,
+            );
+            console.log(
+              '🔵 ReactStrapModal - after focus - document.activeElement:',
+              document.activeElement,
+            );
+
+            console.timeEnd('modal-onOpened'); // onOpened 콜백 시간 측정 종료
+          }}
+        >
           <div className="min-w-[300px] rounded-lg bg-white p-6">
             <form onSubmit={onSubmit}>
               <div className="mb-4">
@@ -179,13 +256,13 @@ export const App = () => {
       )} */}
 
       {/* ❌ */}
-      {/* <ReactStrapModal
+      <ReactStrapModal
         isOpen={isModalOpen}
         toggle={toggleModal}
         onConfirm={onConfirm}
         onReset={onInvoiceNumberReset}
         totalCount={response?.result.goodsList[0].orderCount || 0}
-      /> */}
+      />
     </div>
   );
 };

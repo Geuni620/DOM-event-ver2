@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
@@ -14,13 +14,10 @@ type ModalComponentProps = {
   totalCount: number;
 };
 
-export const ModalComponent: React.FC<ModalComponentProps> = ({
-  toggle,
-  onConfirm,
-  onReset,
-  totalCount,
-}) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+export const ModalComponent = React.forwardRef<
+  HTMLInputElement,
+  ModalComponentProps
+>(({ toggle, onConfirm, onReset, totalCount }, ref) => {
   const [scannedValue, setScannedValue] = useState('');
 
   const onScannedValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,18 +41,17 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   };
 
   useEffect(() => {
-    console.log(
-      '🔵 ModalComponent (Focusing?) - inputRef.current:',
-      inputRef.current,
-    ); // 2. inputRef.current 존재 여부
-
-    inputRef.current?.focus();
-
+    console.time('modal-focus');
+    console.log('🔵 ModalComponent (Focusing?) - ref:', ref);
+    if (typeof ref !== 'function' && ref?.current) {
+      ref.current.focus();
+    }
     console.log(
       '🔵 ModalComponent (Focusing?) - document.activeElement:',
       document.activeElement,
-    ); // 3. focus() 호출 후, 현재 포커스된 요소
-  }, []);
+    );
+    console.timeEnd('modal-focus');
+  }, [ref]);
 
   return (
     <div className="">
@@ -66,7 +62,7 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
               <span>총 주문 수량: {totalCount}</span>
             </div>
             <input
-              ref={inputRef}
+              ref={ref}
               onChange={onScannedValueChange}
               value={scannedValue}
               className="mt-2 w-full rounded border border-gray-300 p-2"
@@ -82,4 +78,6 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
       </div>
     </div>
   );
-};
+});
+
+ModalComponent.displayName = 'ModalComponent';
