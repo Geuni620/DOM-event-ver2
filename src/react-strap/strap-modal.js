@@ -15,7 +15,7 @@ import {
   setScrollbarWidth,
   targetPropType,
   TransitionTimeouts,
-} from './utils';
+} from './strap-utils';
 
 function noop() {}
 
