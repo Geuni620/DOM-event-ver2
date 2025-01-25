@@ -89,22 +89,9 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   //   return () => observer.disconnect();
   // }, []);
 
-  useEffect(() => {
-    console.log('Current isOpen:', isOpen);
-    console.log('inputRef.current:', inputRef.current);
-
-    inputRef.current?.focus();
-  }, [isOpen]);
-
-  useEffect(() => {
-    const timestamp = new Date().toISOString();
-    inputRef.current?.focus();
-    console.log(`[${timestamp}] Effect Trigger`, {
-      isOpen,
-      inputRefCurrent: inputRef.current,
-      inputElement: inputRef.current ? inputRef.current.outerHTML : null,
-    });
-  }, [isOpen]);
+  // useEffect(() => {
+  //   inputRef.current?.focus();
+  // }, [isOpen]);
 
   // useEffect(() => {
   //   requestAnimationFrame(() => {

@@ -2,15 +2,11 @@ import { Barcode } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { CompareModalExample } from 'src/compare-modal';
-import { ModalComponent } from 'src/modal';
-import { PortalModal } from 'src/portal-modal';
-import { PortalModalDelay } from 'src/portal-modal-delay';
-import { ModalComponent as ReactStrapModal } from 'src/react-strap-modal';
-import { TransitionModalComponent } from 'src/transition-modal';
-import { PortalModal as TransitionPortalModal } from 'src/transition-portals-modal';
 
 import { ReleaseService } from '@/service/release-service';
+
+// import { ModalComponent as ModalDefault } from './modal';
+// import { ModalComponent } from './react-strap-modal';
 
 type Response = {
   result_code: string;
@@ -113,6 +109,25 @@ export const App = () => {
       {/* *
        * 모달 컴포넌트 */}
       {/* {isModalOpen && (
+        <ModalDefault
+          toggle={toggleModal}
+          onConfirm={onConfirm}
+          onReset={onInvoiceNumberReset}
+          totalCount={response?.result.goodsList[0].orderCount || 0}
+        />
+      )} */}
+
+      {/* {isModalOpen && (
+        <ModalComponent
+          isOpen={isModalOpen}
+          toggle={toggleModal}
+          onConfirm={onConfirm}
+          onReset={onInvoiceNumberReset}
+          totalCount={response?.result.goodsList[0].orderCount || 0}
+        />
+      )} */}
+
+      {/* {isModalOpen && (
         <ModalComponent
           toggle={toggleModal}
           onConfirm={onConfirm}
@@ -120,57 +135,6 @@ export const App = () => {
           totalCount={response?.result.goodsList[0].orderCount || 0}
         />
       )} */}
-
-      {/* {isModalOpen && (
-        <TransitionModalComponent
-          isOpen={isModalOpen}
-          toggle={toggleModal}
-          onConfirm={onConfirm}
-          onReset={onInvoiceNumberReset}
-          totalCount={response?.result.goodsList[0].orderCount || 0}
-        />
-      )} */}
-
-      {isModalOpen && (
-        <ReactStrapModal
-          isOpen={isModalOpen}
-          toggle={toggleModal}
-          onConfirm={onConfirm}
-          onReset={onInvoiceNumberReset}
-          totalCount={response?.result.goodsList[0].orderCount || 0}
-        />
-      )}
-
-      {/* {isModalOpen && (
-        <PortalModal
-          toggle={toggleModal}
-          onConfirm={onConfirm}
-          onReset={onInvoiceNumberReset}
-          totalCount={response?.result.goodsList[0].orderCount || 0}
-        />
-      )} */}
-
-      {/* {isModalOpen && (
-        <TransitionPortalModal
-          isOpen={isModalOpen}
-          toggle={toggleModal}
-          onConfirm={onConfirm}
-          onReset={onInvoiceNumberReset}
-          totalCount={response?.result.goodsList[0].orderCount || 0}
-        />
-      )} */}
-
-      {/* {isModalOpen && (
-        <PortalModalDelay
-          isOpen={isModalOpen}
-          toggle={toggleModal}
-          onConfirm={onConfirm}
-          onReset={onInvoiceNumberReset}
-          totalCount={response?.result.goodsList[0].orderCount || 0}
-        />
-      )} */}
-
-      {/* <CompareModalExample /> */}
     </div>
   );
 };
