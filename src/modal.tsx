@@ -44,7 +44,17 @@ export const ModalComponent: React.FC<ModalComponentProps> = ({
   };
 
   useEffect(() => {
+    console.log(
+      '🔵 ModalComponent (Focusing?) - inputRef.current:',
+      inputRef.current,
+    ); // 2. inputRef.current 존재 여부
+
     inputRef.current?.focus();
+
+    console.log(
+      '🔵 ModalComponent (Focusing?) - document.activeElement:',
+      document.activeElement,
+    ); // 3. focus() 호출 후, 현재 포커스된 요소
   }, []);
 
   return (

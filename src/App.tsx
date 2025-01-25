@@ -1,15 +1,21 @@
 import { Barcode } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Modal } from 'reactstrap';
 import { toast } from 'sonner';
 
+import { Button } from '@/components/ui/button';
 import { ReleaseService } from '@/service/release-service';
 
+// import { CopyReactStrapModal } from './copy-react-strap-modal.tsx';
 import { ModalComponent as ModalDefault } from './modal';
-import Fade from './react-strap/strap-fade.jsx';
-import Modal from './react-strap/strap-modal.jsx';
-import Portals from './react-strap/strap-portal.js';
-import { ModalComponent } from './react-strap-modal.tsx';
+// import Modal from './react-strap/strap-modal.jsx';
+import { ReactStrapModal } from './react-strap-modal.tsx';
+
+const isEnterCommand = (value: string) => {
+  const trimmedValue = value.trim();
+  return /^enter$/i.test(trimmedValue);
+};
 
 type Response = {
   result_code: string;
@@ -23,9 +29,17 @@ type Response = {
 export const App = () => {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
+  const propsInputRef = useRef<HTMLInputElement>(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [invoiceNumber, setInvoiceNumber] = useState('');
   const [response, setResponse] = useState<Response | null>(null);
+
+  const [scannedValue, setScannedValue] = useState('');
+
+  const onScannedValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setScannedValue(e.target.value);
+  };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -39,6 +53,17 @@ export const App = () => {
     e.preventDefault();
 
     onSearchList(invoiceNumber);
+  };
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isEnterCommand(scannedValue)) {
+      onConfirm();
+      return;
+    }
+
+    toggleModal();
   };
 
   const onSearchList = async (invoiceNumber: string) => {
@@ -79,7 +104,9 @@ export const App = () => {
     inputRef.current?.focus();
   }, []);
 
-  console.log('isModalOpen', isModalOpen);
+  useEffect(() => {
+    propsInputRef.current?.focus();
+  }, [isModalOpen]);
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -109,55 +136,56 @@ export const App = () => {
         </button>
       </div>
 
+      {/* ✅ */}
       {isModalOpen && (
-        <Portals>
-          <Fade in={isModalOpen}>
-            <Modal
-              autoFocus={false}
-              trapFocus={false}
-              isOpen={isModalOpen}
-              toggle={toggleModal}
-            >
-              <ModalDefault
-                toggle={toggleModal}
-                onConfirm={onConfirm}
-                onReset={onInvoiceNumberReset}
-                totalCount={response?.result.goodsList[0].orderCount || 0}
-              />
-            </Modal>
-          </Fade>
-        </Portals>
+        <Modal isOpen={isModalOpen} toggle={toggleModal}>
+          <ModalDefault
+            toggle={toggleModal}
+            onConfirm={onConfirm}
+            onReset={onInvoiceNumberReset}
+            totalCount={response?.result.goodsList[0].orderCount || 0}
+          />
+        </Modal>
       )}
 
-      {/* *
-       * 모달 컴포넌트 */}
+      {/* ❌ */}
       {/* {isModalOpen && (
-        <ModalDefault
-          toggle={toggleModal}
-          onConfirm={onConfirm}
-          onReset={onInvoiceNumberReset}
-          totalCount={response?.result.goodsList[0].orderCount || 0}
-        />
+        <Modal isOpen={isModalOpen} toggle={toggleModal}>
+          <div className="min-w-[300px] rounded-lg bg-white p-6">
+            <form onSubmit={onSubmit}>
+              <div className="mb-4">
+                <div>
+                  <span>
+                    총 주문 수량:{' '}
+                    {response?.result.goodsList[0].orderCount || 0}
+                  </span>
+                </div>
+                <input
+                  ref={propsInputRef}
+                  onChange={onScannedValueChange}
+                  value={scannedValue}
+                  className="mt-2 w-full rounded border border-gray-300 p-2"
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <Button type="submit">확인</Button>
+                <Button type="button" onClick={toggleModal}>
+                  취소
+                </Button>
+              </div>
+            </form>
+          </div>
+        </Modal>
       )} */}
 
-      {/* {isModalOpen && (
-        <ModalComponent
-          isOpen={isModalOpen}
-          toggle={toggleModal}
-          onConfirm={onConfirm}
-          onReset={onInvoiceNumberReset}
-          totalCount={response?.result.goodsList[0].orderCount || 0}
-        />
-      )} */}
-
-      {/* {isModalOpen && (
-        <ModalComponent
-          toggle={toggleModal}
-          onConfirm={onConfirm}
-          onReset={onInvoiceNumberReset}
-          totalCount={response?.result.goodsList[0].orderCount || 0}
-        />
-      )} */}
+      {/* ❌ */}
+      {/* <ReactStrapModal
+        isOpen={isModalOpen}
+        toggle={toggleModal}
+        onConfirm={onConfirm}
+        onReset={onInvoiceNumberReset}
+        totalCount={response?.result.goodsList[0].orderCount || 0}
+      /> */}
     </div>
   );
 };
