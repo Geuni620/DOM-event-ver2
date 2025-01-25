@@ -5,9 +5,10 @@ import { toast } from 'sonner';
 
 import { ReleaseService } from '@/service/release-service';
 
-// import { ModalComponent as ModalDefault } from './modal';
-// import { ModalComponent } from './react-strap-modal';
+import { ModalComponent as ModalDefault } from './modal';
+import { Fade } from './react-strap/fade';
 import { Portals } from './react-strap/portals';
+// import { ModalComponent } from './react-strap-modal';
 
 type Response = {
   result_code: string;
@@ -109,19 +110,14 @@ export const App = () => {
 
       {isModalOpen && (
         <Portals>
-          <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              backgroundColor: 'rgba(0,0,0,0.2)',
-              padding: 20,
-            }}
-          >
-            <p>이 부분은 body 바로 아래에서 렌더링됩니다.</p>
-          </div>
+          <Fade in={isModalOpen}>
+            <ModalDefault
+              toggle={toggleModal}
+              onConfirm={onConfirm}
+              onReset={onInvoiceNumberReset}
+              totalCount={response?.result.goodsList[0].orderCount || 0}
+            />
+          </Fade>
         </Portals>
       )}
 

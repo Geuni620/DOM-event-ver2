@@ -38,11 +38,11 @@ async function enableMocking() {
 
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <React.StrictMode>
-      <QueryProvider>
-        <Toaster position="top-center" richColors />
-        <RouterProvider router={router} />
-      </QueryProvider>
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <QueryProvider>
+      <Toaster position="top-center" richColors />
+      <RouterProvider router={router} />
+    </QueryProvider>,
+    // </React.StrictMode>,
   );
 });
