@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
@@ -14,10 +14,13 @@ type ModalComponentProps = {
   totalCount: number;
 };
 
-export const ModalComponent = React.forwardRef<
-  HTMLInputElement,
-  ModalComponentProps
->(({ toggle, onConfirm, onReset, totalCount }, ref) => {
+export const ModalComponent = ({
+  toggle,
+  onConfirm,
+  onReset,
+  totalCount,
+}: ModalComponentProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [scannedValue, setScannedValue] = useState('');
 
   const onScannedValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,17 +44,8 @@ export const ModalComponent = React.forwardRef<
   };
 
   useEffect(() => {
-    console.time('modal-focus');
-    console.log('🔵 ModalComponent (Focusing?) - ref:', ref);
-    if (typeof ref !== 'function' && ref?.current) {
-      ref.current.focus();
-    }
-    console.log(
-      '🔵 ModalComponent (Focusing?) - document.activeElement:',
-      document.activeElement,
-    );
-    console.timeEnd('modal-focus');
-  }, [ref]);
+    inputRef.current?.focus();
+  }, []);
 
   return (
     <div className="">
@@ -62,7 +56,7 @@ export const ModalComponent = React.forwardRef<
               <span>총 주문 수량: {totalCount}</span>
             </div>
             <input
-              ref={ref}
+              ref={inputRef}
               onChange={onScannedValueChange}
               value={scannedValue}
               className="mt-2 w-full rounded border border-gray-300 p-2"
@@ -78,6 +72,4 @@ export const ModalComponent = React.forwardRef<
       </div>
     </div>
   );
-});
-
-ModalComponent.displayName = 'ModalComponent';
+};

@@ -159,20 +159,16 @@ export const App = () => {
       </div>
 
       {/* ✅ */}
-      {/* {isModalOpen && (
-        <Modal
-          isOpen={isModalOpen}
-          toggle={toggleModal}
-        >
+      {isModalOpen && (
+        <Modal isOpen={isModalOpen} toggle={toggleModal}>
           <ModalDefault
-            ref={propsInputRef}
             toggle={toggleModal}
             onConfirm={onConfirm}
             onReset={onInvoiceNumberReset}
             totalCount={response?.result.goodsList[0].orderCount || 0}
           />
         </Modal>
-      )} */}
+      )}
 
       {/* ❌ */}
       {/* {isModalOpen && (
