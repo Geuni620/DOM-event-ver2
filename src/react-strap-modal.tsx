@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
+// import { Modal } from 'reactstrap';
 import { Button } from '@/components/ui/button';
 
-// import { Modal } from 'reactstrap';
 import Modal from './react-strap/strap-modal';
 
 const isEnterCommand = (value: string) => {
@@ -70,7 +70,7 @@ export const ReactStrapModal: React.FC<ModalComponentProps> = ({
     <Modal
       isOpen={isOpen}
       toggle={toggle}
-      autoFocus={true}
+      autoFocus={false}
       // autoFocus={false}
       // onOpened={() => {
       //   console.time('opened');
