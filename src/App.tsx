@@ -4,18 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { Modal } from 'reactstrap';
 import { toast } from 'sonner';
 
-import { Button } from '@/components/ui/button';
 import { ReleaseService } from '@/service/release-service';
 
 // import { CopyReactStrapModal } from './copy-react-strap-modal.tsx';
 import { ModalComponent as ModalDefault } from './modal';
 // import Modal from './react-strap/strap-modal.jsx';
 import { ReactStrapModal } from './react-strap-modal.tsx';
-
-const isEnterCommand = (value: string) => {
-  const trimmedValue = value.trim();
-  return /^enter$/i.test(trimmedValue);
-};
 
 type Response = {
   result_code: string;
@@ -29,17 +23,10 @@ type Response = {
 export const App = () => {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
-  const propsInputRef = useRef<HTMLInputElement>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [invoiceNumber, setInvoiceNumber] = useState('');
   const [response, setResponse] = useState<Response | null>(null);
-
-  const [scannedValue, setScannedValue] = useState('');
-
-  const onScannedValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setScannedValue(e.target.value);
-  };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -53,17 +40,6 @@ export const App = () => {
     e.preventDefault();
 
     onSearchList(invoiceNumber);
-  };
-
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (isEnterCommand(scannedValue)) {
-      onConfirm();
-      return;
-    }
-
-    toggleModal();
   };
 
   const onSearchList = async (invoiceNumber: string) => {
@@ -104,32 +80,6 @@ export const App = () => {
     inputRef.current?.focus();
   }, []);
 
-  // useEffect(() => {
-  //   console.time('app-focus'); // 타이머 시작 (focus 관련)
-
-  //   console.log(
-  //     '🔵 App - before focus - propsInputRef.current:',
-  //     propsInputRef.current,
-  //   );
-  //   console.log(
-  //     '🔵 App - before focus - document.activeElement:',
-  //     document.activeElement,
-  //   );
-
-  //   propsInputRef.current?.focus();
-
-  //   console.log(
-  //     '🔵 App - after focus - propsInputRef.current:',
-  //     propsInputRef.current,
-  //   );
-  //   console.log(
-  //     '🔵 App - after focus - document.activeElement:',
-  //     document.activeElement,
-  //   );
-
-  //   console.timeEnd('app-focus'); // 타이머 종료 (focus 관련)
-  // }, [isModalOpen]);
-
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
@@ -169,63 +119,6 @@ export const App = () => {
           />
         </Modal>
       )}
-
-      {/* ❌ */}
-      {/* {isModalOpen && (
-        <Modal
-          isOpen={isModalOpen}
-          toggle={toggleModal}
-          onOpened={() => {
-            console.time('modal-onOpened'); // onOpened 콜백 시간 측정 시작
-            console.log(
-              '🟢 ReactStrapModal - onOpened - inputRef.current:',
-              propsInputRef.current,
-            );
-            console.log(
-              '🟢 ReactStrapModal - onOpened - document.activeElement:',
-              document.activeElement,
-            );
-
-            propsInputRef.current?.focus();
-
-            console.log(
-              '🔵 ReactStrapModal - after focus - inputRef.current:',
-              propsInputRef.current,
-            );
-            console.log(
-              '🔵 ReactStrapModal - after focus - document.activeElement:',
-              document.activeElement,
-            );
-
-            console.timeEnd('modal-onOpened'); // onOpened 콜백 시간 측정 종료
-          }}
-        >
-          <div className="min-w-[300px] rounded-lg bg-white p-6">
-            <form onSubmit={onSubmit}>
-              <div className="mb-4">
-                <div>
-                  <span>
-                    총 주문 수량:{' '}
-                    {response?.result.goodsList[0].orderCount || 0}
-                  </span>
-                </div>
-                <input
-                  ref={propsInputRef}
-                  onChange={onScannedValueChange}
-                  value={scannedValue}
-                  className="mt-2 w-full rounded border border-gray-300 p-2"
-                />
-              </div>
-              <div className="flex justify-end gap-2">
-                <Button type="submit">확인</Button>
-                <Button type="button" onClick={toggleModal}>
-                  취소
-                </Button>
-              </div>
-            </form>
-          </div>
-        </Modal>
-      )} */}
 
       {/* ❌ */}
       <ReactStrapModal
