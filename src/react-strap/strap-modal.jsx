@@ -138,7 +138,9 @@ class Modal extends React.Component {
       this.init();
       this.setState({ isOpen: true });
       if (autoFocus) {
+        console.time('setFocus 호출 (componentDidMount)');
         this.setFocus();
+        console.timeEnd('setFocus 호출 (componentDidMount)');
       }
     }
 
@@ -162,7 +164,9 @@ class Modal extends React.Component {
 
     // now Modal Dialog is rendered and we can refer this._element and this._dialog
     if (this.props.autoFocus && this.state.isOpen && !prevState.isOpen) {
+      console.time('setFocus 호출 (componentDidUpdate)');
       this.setFocus();
+      console.timeEnd('setFocus 호출 (componentDidUpdate)');
     }
 
     if (this._element && prevProps.zIndex !== this.props.zIndex) {
