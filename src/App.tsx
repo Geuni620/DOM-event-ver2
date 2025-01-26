@@ -161,30 +161,6 @@ export const App = () => {
       {/* ✅ */}
       {/* {isModalOpen && (
         <Modal
-          onOpened={() => {
-            console.time('modal-onOpened'); // onOpened 콜백 시간 측정 시작
-            console.log(
-              '🟢 ReactStrapModal - onOpened - inputRef.current:',
-              propsInputRef.current,
-            );
-            console.log(
-              '🟢 ReactStrapModal - onOpened - document.activeElement:',
-              document.activeElement,
-            );
-
-            propsInputRef.current?.focus();
-
-            console.log(
-              '🔵 ReactStrapModal - after focus - inputRef.current:',
-              propsInputRef.current,
-            );
-            console.log(
-              '🔵 ReactStrapModal - after focus - document.activeElement:',
-              document.activeElement,
-            );
-
-            console.timeEnd('modal-onOpened'); // onOpened 콜백 시간 측정 종료
-          }}
           isOpen={isModalOpen}
           toggle={toggleModal}
         >

@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { Modal } from 'reactstrap';
 
 import { Button } from '@/components/ui/button';
+
+// import { Modal } from 'reactstrap';
+import Modal from './react-strap/strap-modal';
 
 const isEnterCommand = (value: string) => {
   const trimmedValue = value.trim();
@@ -46,33 +48,35 @@ export const ReactStrapModal: React.FC<ModalComponentProps> = ({
     onReset();
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      console.time('useEffect');
-      inputRef.current?.focus();
-      console.timeEnd('useEffect');
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     console.time('useEffect');
+  //     inputRef.current?.focus();
+  //     console.timeEnd('useEffect');
+  //   }
+  // }, [isOpen]);
 
-  useEffect(() => {
-    if (isOpen) {
-      requestAnimationFrame(() => {
-        console.time('animationFrame');
-        inputRef.current?.focus();
-        console.timeEnd('animationFrame');
-      });
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     requestAnimationFrame(() => {
+  //       console.time('animationFrame');
+  //       inputRef.current?.focus();
+  //       console.timeEnd('animationFrame');
+  //     });
+  //   }
+  // }, [isOpen]);
 
   return (
     <Modal
       isOpen={isOpen}
       toggle={toggle}
-      onOpened={() => {
-        console.time('opened');
-        inputRef.current?.focus();
-        console.timeEnd('opened');
-      }}
+      autoFocus={true}
+      // autoFocus={false}
+      // onOpened={() => {
+      //   console.time('opened');
+      //   inputRef.current?.focus();
+      //   console.timeEnd('opened');
+      // }}
     >
       <div className="min-w-[300px] rounded-lg bg-white p-6">
         <form onSubmit={handleSubmit}>
