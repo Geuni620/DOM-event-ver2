@@ -109,7 +109,7 @@ export const App = () => {
       </div>
 
       {/* ✅ */}
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <Modal isOpen={isModalOpen} toggle={toggleModal}>
           <ModalDefault
             toggle={toggleModal}
@@ -118,7 +118,7 @@ export const App = () => {
             totalCount={response?.result.goodsList[0].orderCount || 0}
           />
         </Modal>
-      )}
+      )} */}
 
       {/* ❌ */}
       <ReactStrapModal
