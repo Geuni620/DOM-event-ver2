@@ -70,7 +70,7 @@ export const ReactStrapModal: React.FC<ModalComponentProps> = ({
     <Modal
       isOpen={isOpen}
       toggle={toggle}
-      autoFocus={false}
+      autoFocus={true}
       // autoFocus={false}
       // onOpened={() => {
       //   console.time('opened');
