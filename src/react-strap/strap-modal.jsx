@@ -138,9 +138,7 @@ class Modal extends React.Component {
       this.init();
       this.setState({ isOpen: true });
       if (autoFocus) {
-        console.time('setFocus 호출 (componentDidMount)');
         this.setFocus();
-        console.timeEnd('setFocus 호출 (componentDidMount)');
       }
     }
 
